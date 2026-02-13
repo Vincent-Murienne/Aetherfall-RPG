@@ -3,7 +3,7 @@ from equipement import Equipement
 from competence import CoupPuissant, ChargeHeroique, SortBouleDeFeu, SortBouclierArcanique, AttaqueSournoise, EsquiveParfaite
 
 class Personnage:
-    def __init__(self, nom, max_pv, force, intelligence, agilite, defense, taux_critique=0.05):
+    def __init__(self, nom, max_pv, force, intelligence, agilite, defense, inventaire, argent, taux_critique):
         self.nom = nom
         self.max_pv = max_pv
         self.pv_actuels = max_pv
@@ -14,6 +14,8 @@ class Personnage:
         self.taux_critique = taux_critique
         self.equipement = Equipement(self)
         self.statuts = []
+        self.inventaire = inventaire
+        self.argent = argent
 
     @property
     def force_totale(self):
@@ -43,6 +45,37 @@ class Personnage:
     def ajouter_statut(self, effet):
         self.statuts.append(effet)
 
+    def AfficherBourse(self):
+        print(self.argent)
+
+    def bourse(self, argent_gagne):
+        self.argent += argent_gagne
+        return self.argent
+
+    def afficherInventaire(self):
+        if(len(self.inventaire) > 0):
+            index = 0
+            for i in self.inventaire:
+                print(index,": ", i)
+                index += 1
+        else:
+            print("inventaire vide")
+            return
+
+    def SupprimerInventaire(self, index):
+        self.inventaire.pop(index)
+
+    def loot(self, cible):
+        if(cible.pv_actuels <= 0):
+
+            self.bourse(cible.argent)
+            if(len(self.inventaire) < 10):
+                self.inventaire.extend(cible.inventaire)
+                cible.inventaire = []
+            else:
+                print("Vous pouvez pas porter plus d'objet")
+        
+        return self.inventaire
 
     # def appliquer_effets(self, moment):
     #     for effet in self.statuts[:]:
@@ -58,8 +91,8 @@ class Personnage:
 
 
 class PersonnageJouable(Personnage):
-    def __init__(self, nom, max_pv, force, intelligence, agilite, defense, taux_critique=0.05):
-        super().__init__(nom, max_pv, force, intelligence, agilite, defense, taux_critique)
+    def __init__(self, nom, max_pv, force, intelligence, agilite, defense, inventaire, argent, taux_critique=0.05):
+        super().__init__(nom, max_pv, force, intelligence, agilite, defense, inventaire, argent, taux_critique)
 
         self.competences = []
 
@@ -78,7 +111,9 @@ class Guerrier(PersonnageJouable):
             intelligence=20,
             agilite=30,
             defense=60,
-            taux_critique=0.05
+            taux_critique=0.05,
+            inventaire=[],
+            argent=20
         )
 
         self.ajouter_competence(CoupPuissant())
@@ -93,7 +128,9 @@ class Mage(PersonnageJouable):
             intelligence=80,
             agilite=40,
             defense=30,
-            taux_critique=0.05
+            taux_critique=0.05,
+            inventaire=[],
+            argent=5
         )
 
         self.ajouter_competence(SortBouleDeFeu())
@@ -108,7 +145,9 @@ class Voleur(PersonnageJouable):
             intelligence=30,
             agilite=80,
             defense=40,
-            taux_critique=0.15
+            taux_critique=0.15,
+            inventaire=[],
+            argent=35
         )
 
         self.ajouter_competence(AttaqueSournoise())
@@ -116,8 +155,8 @@ class Voleur(PersonnageJouable):
 
 
 class Bestiaire(Personnage):
-    def __init__(self, nom, max_pv, force, intelligence, agilite, defense, taux_critique=0.05):
-        super().__init__(nom, max_pv, force, intelligence, agilite, defense, taux_critique)
+    def __init__(self, nom, max_pv, force, intelligence, agilite, defense, inventaire, argent, taux_critique=0.05):
+        super().__init__(nom, max_pv, force, intelligence, agilite, defense, inventaire, argent, taux_critique)
 
         self.competences = []
 
@@ -140,7 +179,9 @@ class LoupSauvage(Bestiaire):
             intelligence=10,
             agilite=70,
             defense=20,
-            taux_critique=0.1
+            taux_critique=0.1,
+            inventaire=["viande", "os"],
+            argent=3
         )
 
         self.ajouter_competence(CoupPuissant())  # attaques multiples
@@ -155,7 +196,9 @@ class Bandit(Bestiaire):
             intelligence=20,
             agilite=50,
             defense=30,
-            taux_critique=0.12
+            taux_critique=0.12,
+            invenaire=["tissus"],
+            argent=5
         )
 
         self.ajouter_competence(AttaqueSournoise())
@@ -170,7 +213,9 @@ class Squelette(Bestiaire):
             intelligence=5,
             agilite=30,
             defense=60,   # grosse défense physique
-            taux_critique=0.05
+            taux_critique=0.05,
+            inventaire=["os"],
+            argent=7
         )
 
         self.ajouter_competence(CoupPuissant())
@@ -185,7 +230,9 @@ class ChampionCorrompu(Bestiaire):
             intelligence=15,
             agilite=30,
             defense=60,
-            taux_critique=0.05
+            taux_critique=0.05,
+            inventaire=[],
+            argent=20
         )
 
         self.ajouter_competence(CoupPuissant())
@@ -199,7 +246,9 @@ class GardienDonjon(Bestiaire):
             intelligence=50,
             agilite=40,
             defense=70,
-            taux_critique=0.15
+            taux_critique=0.15,
+            inventaire=[],
+            argent=100
         )
 
         self.phase = 1
@@ -218,3 +267,5 @@ class GardienDonjon(Bestiaire):
         self.force += 20
         self.agilite += 20
         print("Le Gardien entre en phase 2 ! Il devient furieux !")
+
+
