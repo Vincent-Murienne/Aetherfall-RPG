@@ -83,7 +83,7 @@ class SystemeSauvegarde:
         chemin_complet = os.path.join(self.DOSSIER_SAUVEGARDES, self.FICHIER_SAUVEGARDE)
         
         if not os.path.exists(chemin_complet):
-            print("\nAucune sauvegarde trouvée.")
+            print("Aucune sauvegarde trouvée.")
             return None
         
         try:

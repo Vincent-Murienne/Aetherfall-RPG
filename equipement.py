@@ -28,18 +28,15 @@ class Equipement:
     def armure_active(self):
         return self.armure
 
-
 class Objet:
     def __init__(self, nom):
         self.nom = nom
-
 
 class Arme(Objet):
     def __init__(self, nom, bonus_atk=0, bonus_int=0):
         super().__init__(nom)
         self.bonus_atk = bonus_atk
         self.bonus_int = bonus_int
-
 
 class Armure(Objet):
     def __init__(self, nom, bonus_def=0, bonus_int=0):

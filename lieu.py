@@ -10,7 +10,6 @@ class Village:
         print("Vous quittez le village en direction de la forêt.")
         return Foret(self, self.joueur)
 
-
 class Foret:
     def __init__(self, village, joueur):
         self.village = village
@@ -28,20 +27,20 @@ class Foret:
             ennemi = random.choice(self.ennemis_standards)()
             print(f"Un {ennemi.nom} apparaît !")
             return ennemi
-
+        
         elif evenement == "tresor":
             self.tresor()
 
-        else:
-            print("La forêt est calme...")
+        print("La forêt est calme...")
+        return None
 
     def tresor(self):
         print("Vous trouvez un coffre dans les buissons !")
 
+    ## Il faut faire en sorte que je puisse rentrer dans le donjon quand  
     def rentrerDonjon(self):
         print("Vous trouvez l'entrée du donjon...")
         return DonjonSalle1(self.joueur)
-
 
 class DonjonSalle1:
     def __init__(self, joueur):
@@ -51,7 +50,6 @@ class DonjonSalle1:
         print("Salle 1 terminée.")
         return DonjonSalle2(self.joueur)
 
-
 class DonjonSalle2:
     def __init__(self, joueur):
         self.joueur = joueur
@@ -59,7 +57,6 @@ class DonjonSalle2:
     def avancer(self):
         print("Salle 2 terminée.")
         return DonjonSalleFinale(self.joueur)
-
 
 class DonjonSalleFinale:
     def __init__(self, joueur):
