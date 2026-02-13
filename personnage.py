@@ -35,9 +35,10 @@ class Personnage:
         return self.pv_actuels > 0
 
     def subir_degats(self, montant):
-        degats_reels = max(0, montant - (self.defense_totale))
+        reduction = self.defense_totale * 0.4
+        degats_reels = max(1, int(montant - reduction))
         self.pv_actuels -= degats_reels
-        self.pv_actuels = max(0, self.pv_actuels)
+        print(f"{self.nom} perd {degats_reels} PV ({self.pv_actuels}/{self.max_pv})")
 
     def soigner(self, montant):
         self.pv_actuels = min(self.max_pv, self.pv_actuels + montant)
@@ -88,8 +89,7 @@ class Personnage:
 
     def choisir_action(self):
         print("L'ennemi et nous, choisissons une action")
-
-
+    
 class PersonnageJouable(Personnage):
     def __init__(self, nom, max_pv, force, intelligence, agilite, defense, inventaire, argent, taux_critique=0.05):
         super().__init__(nom, max_pv, force, intelligence, agilite, defense, inventaire, argent, taux_critique)
@@ -153,7 +153,6 @@ class Voleur(PersonnageJouable):
         self.ajouter_competence(AttaqueSournoise())
         self.ajouter_competence(EsquiveParfaite())
 
-
 class Bestiaire(Personnage):
     def __init__(self, nom, max_pv, force, intelligence, agilite, defense, inventaire, argent, taux_critique=0.05):
         super().__init__(nom, max_pv, force, intelligence, agilite, defense, inventaire, argent, taux_critique)
@@ -167,7 +166,6 @@ class Bestiaire(Personnage):
         # Pour l’instant : attaque aléatoire simple
         if self.competences:
             return random.choice(self.competences)
-
 
 # rajouter -> attaques multiples, vol d'objets possible, résistant aux dégâts physiques
 class LoupSauvage(Bestiaire):
@@ -199,7 +197,7 @@ class Bandit(Bestiaire):
             agilite=50,
             defense=30,
             taux_critique=0.12,
-            invenaire=["tissus"],
+            inventaire=["tissus"],
             argent=5
         )
         

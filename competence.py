@@ -5,7 +5,6 @@ class Competence:
     def lancer(self, lanceur, cible):
         pass
 
-
 class CoupPuissant(Competence):
     def __init__(self):
         super().__init__("Coup puissant")
@@ -14,7 +13,6 @@ class CoupPuissant(Competence):
         degats = int(lanceur.force * 1.8)
         cible.subir_degats(degats)
         print(f"{lanceur.nom} frappe violemment et inflige {degats} dégâts !")
-
 
 class ChargeHeroique(Competence):
     def __init__(self):
@@ -25,7 +23,6 @@ class ChargeHeroique(Competence):
         cible.subir_degats(degats)
         print(f"{lanceur.nom} charge et étourdit {cible.nom} !")
 
-
 class SortBouleDeFeu(Competence):
     def __init__(self):
         super().__init__("Boule de feu")
@@ -34,7 +31,6 @@ class SortBouleDeFeu(Competence):
         degats = lanceur.intelligence * 1.5
         cible.subir_degats(degats)
         print(f"{lanceur.nom} lance Boule de feu et inflige {degats} dégâts !")
-
 
 class SortBouclierArcanique(Competence):
     def __init__(self):
@@ -52,7 +48,6 @@ class AttaqueSournoise(Competence):
         degats = int(lanceur.agilite * 1.5)
         cible.subir_degats(degats)
         print(f"{lanceur.nom} frappe dans l’ombre et inflige {degats} dégâts !")
-
 
 class EsquiveParfaite(Competence):
     def __init__(self):
