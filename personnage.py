@@ -184,7 +184,9 @@ class LoupSauvage(Bestiaire):
             argent=3
         )
 
-        self.ajouter_competence(CoupPuissant())  # attaques multiples
+    def attaqueRapide(self, cible):
+        pass
+
 
 # rajouter -> vol d'objets possible, résistant aux dégâts physiques
 class Bandit(Bestiaire):
@@ -200,8 +202,9 @@ class Bandit(Bestiaire):
             invenaire=["tissus"],
             argent=5
         )
-
-        self.ajouter_competence(AttaqueSournoise())
+        
+    def vole_argent(self, cible):
+        cible.argent -= 10
 
 # rajouter -> résistant aux dégâts physiques
 class Squelette(Bestiaire):
@@ -218,7 +221,8 @@ class Squelette(Bestiaire):
             argent=7
         )
 
-        self.ajouter_competence(CoupPuissant())
+    def resistancePhysique(self, cible):
+        pass
 
 # rajouter -> PV élevés et compétence spéciale
 class ChampionCorrompu(Bestiaire):
@@ -235,7 +239,8 @@ class ChampionCorrompu(Bestiaire):
             argent=20
         )
 
-        self.ajouter_competence(CoupPuissant())
+    def coupUltraPuissant(self, cible):
+        pass
 
 class GardienDonjon(Bestiaire):
     def __init__(self):
@@ -255,6 +260,9 @@ class GardienDonjon(Bestiaire):
 
         self.ajouter_competence(CoupPuissant())
         self.ajouter_competence(SortBouleDeFeu())
+
+    def maxiBuff(self, cible):
+        pass
 
     def subir_degats(self, montant):
         super().subir_degats(montant)
