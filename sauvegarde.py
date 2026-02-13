@@ -5,10 +5,6 @@ from personnage import Guerrier, Mage, Voleur
 from equipement import Arme, Armure
 from lieu import Village, Foret, DonjonSalle1, DonjonSalle2, DonjonSalleFinale
 
-
-# Système de sauvegarde et chargement de partie en JSON.
-# Gère la persistance de l'état complet du jeu
-
 class SystemeSauvegarde:
     DOSSIER_SAUVEGARDES = "sauvegardes"
     FICHIER_SAUVEGARDE = "partie.json"
@@ -53,7 +49,7 @@ class SystemeSauvegarde:
                 
                 # Progression
                 "progression": {
-                    "zone_actuelle": zone_actuelle,
+                    "zone_actuelle": zone_actuelle.id_zone,
                     "etat_quete": etat_quete
                 },
                 
@@ -102,11 +98,14 @@ class SystemeSauvegarde:
             if donnees["inventaire"]["armure_equipee"]:
                 armure = self._deserialiser_armure(donnees["inventaire"]["armure_equipee"])
                 joueur.equipement.equiper_armure(armure)
+
+            nom_zone = donnees["progression"]["zone_actuelle"]
+            zone = self._deserialiser_zone(nom_zone, joueur)
             
             # On préparation de l'état du jeu
             etat_jeu = {
                 "joueur": joueur,
-                "zone_actuelle": donnees["progression"]["zone_actuelle"],
+                "zone_actuelle": zone,
                 "etat_quete": donnees["progression"]["etat_quete"],
                 "or_possede": donnees["donnees_optionnelles"]["or_possede"],
                 "ennemis_vaincus": donnees["donnees_optionnelles"]["ennemis_vaincus"],
@@ -144,12 +143,7 @@ class SystemeSauvegarde:
             print(f"\n Erreur lors de la suppression : {e}")
             return False
     
-
-    # ==================== ZONE METHODES DE SÉRIALISATION ====================
-    
-   
     def _serialiser_inventaire(self, joueur):
-        # À compléter en fonction des besoin
         return []
     
     def _serialiser_arme(self, arme):
@@ -175,8 +169,6 @@ class SystemeSauvegarde:
             "bonus_def": armure.bonus_def,
             "bonus_int": armure.bonus_int
         }
-    
-    # ==================== ZONE METHODES DE DÉSÉRIALISATION ====================
     
     # On reconstruit un personnage depuis les données JSON
     def _deserialiser_personnage(self, donnees_perso):
@@ -240,9 +232,6 @@ class SystemeSauvegarde:
             # Par défaut, retour au village
             return Village(joueur, magasin=None)
 
-
-# ==================== ZONE FONCTIONS UTILITAIRES ====================
-
 def menu_sauvegarde(joueur, zone_actuelle, etat_quete=0, or_possede=0, 
                     ennemis_vaincus=None, coffres_ouverts=None):
     
@@ -267,8 +256,6 @@ def menu_sauvegarde(joueur, zone_actuelle, etat_quete=0, or_possede=0,
         print("\nSauvegarde annulée.")
         return False
 
-
-# On affiche un menu de chargement et charge une partie si demandé
 def menu_chargement():
     systeme = SystemeSauvegarde()
     
