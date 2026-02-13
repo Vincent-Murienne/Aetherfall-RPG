@@ -154,8 +154,7 @@ class SystemeSauvegarde:
         
         return {
             "nom": arme.nom,
-            "bonus_atk": arme.bonus_atk,
-            "bonus_int": arme.bonus_int
+            "bonus_atk": arme.bonus_atk
         }
     
     def _serialiser_armure(self, armure):
@@ -166,8 +165,7 @@ class SystemeSauvegarde:
         
         return {
             "nom": armure.nom,
-            "bonus_def": armure.bonus_def,
-            "bonus_int": armure.bonus_int
+            "bonus_def": armure.bonus_def
         }
     
     # On reconstruit un personnage depuis les données JSON
@@ -200,8 +198,7 @@ class SystemeSauvegarde:
         
         return Arme(
             nom=donnees_arme["nom"],
-            bonus_atk=donnees_arme["bonus_atk"],
-            bonus_int=donnees_arme["bonus_int"]
+            bonus_atk=donnees_arme["bonus_atk"]
         )
     
     # On reconstruit une armure depuis les données JSON.
@@ -212,7 +209,6 @@ class SystemeSauvegarde:
         return Armure(
             nom=donnees_armure["nom"],
             bonus_def=donnees_armure["bonus_def"],
-            bonus_int=donnees_armure["bonus_int"]
         )
     
     # On reconstruit l'objet de zone depuis son nom.

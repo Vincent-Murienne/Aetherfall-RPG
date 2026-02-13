@@ -9,9 +9,8 @@ class Combat:
         raise NotImplementedError("Chaque action de combat doit implémenter executer()")
 
 class Attaque(Combat):
-    def __init__(self, lanceur, cible, effet=None):
+    def __init__(self, lanceur, cible):
         super().__init__(lanceur, cible)
-        self.effet = effet
 
     def executer(self):
         attaque = self.lanceur.force_totale
@@ -24,11 +23,6 @@ class Attaque(Combat):
 
         self.cible.subir_degats(degats)
         print(f"{self.lanceur.nom} attaque {self.cible.nom}.")
-
-        # Ajout d’effet (poison, étourdissement, etc.)
-        # if self.effet:
-        #     self.cible.ajouter_statut(self.effet)
-        #     print(f"{self.cible.nom} est affecté par {self.effet.nom} !")
 
 class Defense(Combat):
     def executer(self):
